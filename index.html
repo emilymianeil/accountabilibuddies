@@ -54,8 +54,8 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 </style>
 </head>
 <body>
-<h1>45,000 Fabulous Words</h1>
-<p class="sub">One heroic writer, one flying pencil, and a very dramatic test tube. Darling, the page count is <em>not</em> going to fill itself.</p>
+<h1>Accountabilibuddy Tracker</h1>
+<p class="sub">Six weeks. Two buddies. One pencil.</p>
 <div class="player"><iframe title="Spotify player" src="https://open.spotify.com/embed/track/6dshconh2KBbGxVh7GtSTC?utm_source=generator" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
 
 <div class="sky" aria-hidden="true">
@@ -65,7 +65,7 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
  <!-- legs -->
  <g transform="translate(0 0)">
   <g class="leg"><rect x="140" y="110" width="15" height="38" rx="7" fill="#3b2a6e"/><ellipse cx="152" cy="150" rx="12" ry="6" fill="#fff" stroke="#2a0a44" stroke-width="2.5"/></g>
-  <g class="leg b"><rect x="158" y="110" width="15" height="36" rx="7" fill="#4b3a8c"/><ellipse cx="170" cy="148" rx="12" ry="6" fill="#fff" stroke="#2a0a44" stroke-width="2.5"/></g>
+  <g class="leg b"><rect x="158" y="110" width="15" height="36" rx="7"Go fill er up buddy! fill="#4b3a8c"/><ellipse cx="170" cy="148" rx="12" ry="6" fill="#fff" stroke="#2a0a44" stroke-width="2.5"/></g>
  </g>
  <!-- pencil -->
  <g stroke="#2a0a44" stroke-width="3" stroke-linejoin="round">
@@ -139,7 +139,7 @@ const fmt = n => n.toLocaleString('en-GB');
 document.getElementById('goal').textContent = fmt(GOAL);
 
 // milestones: tube inside runs y=40 (full) to y=430 (empty)
-const marks = [[.25,'25%: gorgeous start'],[.5,'50%: halfway to fabulous'],[.75,'75%: absolutely iconic'],[1,'100%: legend status']];
+const marks = [[.25,'25%: gorgeous start'],[.5,'50%: halfway there cowboy'],[.75,'75%: almost hunky bumpkin'],[1,'100%: absolute perfection']];
 const ul = document.getElementById('marks');
 const lis = marks.map(([p,t]) => {
   const li = document.createElement('li');
@@ -149,7 +149,7 @@ const lis = marks.map(([p,t]) => {
   return li;
 });
 
-const msgs = [[0,'The tube is empty. The pencil is sharpened. Dramatic pause.'],[.1,'We have liquid! Sparkly, suspicious liquid!'],[.3,'Look at her go. The pencil is practically sweating.'],[.5,'Halfway there, sweetie. The tube is starting to bubble.'],[.75,'The home stretch! Someone fetch the glitter cannon.'],[1,'45,000 words. Standing ovation. Cue the confetti.']];
+const msgs = [[0,'Go fill er up buddy!'],[.1,'What a start!'],[.3,'Hot stuff! Keep it coming.'],[.5,'Halfway there ya beauty!'],[.75,'Aaaaaaalmost ya sweetheart (derogatory)!'],[1,'45,000 words. Absolute perfection. No notes.']];
 const num = document.getElementById('num');
 
 function render(words){
