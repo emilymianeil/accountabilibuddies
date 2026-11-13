@@ -65,7 +65,7 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
  <!-- legs -->
  <g transform="translate(0 0)">
   <g class="leg"><rect x="140" y="110" width="15" height="38" rx="7" fill="#3b2a6e"/><ellipse cx="152" cy="150" rx="12" ry="6" fill="#fff" stroke="#2a0a44" stroke-width="2.5"/></g>
-  <g class="leg b"><rect x="158" y="110" width="15" height="36" rx="7"Go fill er up buddy! fill="#4b3a8c"/><ellipse cx="170" cy="148" rx="12" ry="6" fill="#fff" stroke="#2a0a44" stroke-width="2.5"/></g>
+  <g class="leg b"><rect x="158" y="110" width="15" height="36" rx="7" fill="#4b3a8c"/><ellipse cx="170" cy="148" rx="12" ry="6" fill="#fff" stroke="#2a0a44" stroke-width="2.5"/></g>
  </g>
  <!-- pencil -->
  <g stroke="#2a0a44" stroke-width="3" stroke-linejoin="round">
@@ -129,14 +129,14 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 </div>
 
 <script>
-// The word count is read live from your Google Sheet (cell B1).
+// Both numbers are read live from your Google Sheet:
+//   B1 = words written so far, B2 = goal.
 // The sheet must be shared as "Anyone with the link: Viewer".
 const SHEET_ID = '14IWNhqqPW7c8nupQPdm8rVA0yJUYF1HegXEC_tb4-p4';
-const FALLBACK_WORDS = 0; // shown if the sheet can't be reached
-const GOAL = 70000;
+const FALLBACK_WORDS = 0;      // used if the sheet can't be reached
+const FALLBACK_GOAL = 70000;   // used if the sheet can't be reached
 
 const fmt = n => n.toLocaleString('en-GB');
-document.getElementById('goal').textContent = fmt(GOAL);
 
 // milestones: tube inside runs y=40 (full) to y=430 (empty)
 const marks = [[.25,'25%: gorgeous start'],[.5,'50%: halfway there cowboy'],[.75,'75%: almost hunky bumpkin'],[1,'100%: absolute perfection']];
@@ -149,14 +149,15 @@ const lis = marks.map(([p,t]) => {
   return li;
 });
 
-const msgs = [[0,'Go fill er up buddy!'],[.1,'What a start!'],[.3,'Hot stuff! Keep it coming.'],[.5,'Halfway there ya beauty!'],[.75,'Aaaaaaalmost ya sweetheart (derogatory)!'],[1,'45,000 words. Absolute perfection. No notes.']];
+const msgs = [[0,'Go fill er up buddy!'],[.1,'What a start!'],[.3,'Hot stuff! Keep it coming.'],[.5,'Halfway there ya beauty!'],[.75,'Aaaaaaalmost ya sweetheart (derogatory)!'],[1,'{goal} words. Absolute perfection. No notes.']];
 const num = document.getElementById('num');
 
-function render(words){
-  const pct = Math.min(1, words / GOAL);
+function render(words, goal){
+  const pct = Math.min(1, words / goal);
+  document.getElementById('goal').textContent = fmt(goal);
   document.getElementById('pct').textContent = Math.round(pct * 100) + '%';
   lis.forEach((li, i) => li.classList.toggle('on', pct >= marks[i][0]));
-  document.getElementById('msg').textContent = [...msgs].reverse().find(m => pct >= m[0])[1];
+  document.getElementById('msg').textContent = [...msgs].reverse().find(m => pct >= m[0])[1].replace('{goal}', fmt(goal));
   setTimeout(() => {
     document.getElementById('liquid').style.transform = `translateY(${(1 - pct) * 390}px)`;
   }, 300);
@@ -168,13 +169,13 @@ function render(words){
   })(t0);
 }
 
-fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&range=B1`, {cache: 'no-store'})
+fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&headers=0&range=B1:B2`, {cache: 'no-store'})
   .then(r => r.ok ? r.text() : Promise.reject())
   .then(t => {
-    const n = Math.round(Number(t.replace(/[^0-9.]/g, '')));
-    render(isFinite(n) && n >= 0 ? n : FALLBACK_WORDS);
+    const [w, g] = t.trim().split(/\r?\n/).map(l => Math.round(Number(l.replace(/[^0-9.]/g, ''))));
+    render(isFinite(w) && w >= 0 ? w : FALLBACK_WORDS, isFinite(g) && g > 0 ? g : FALLBACK_GOAL);
   })
-  .catch(() => render(FALLBACK_WORDS));
+  .catch(() => render(FALLBACK_WORDS, FALLBACK_GOAL));
 
 </script>
 </body>
