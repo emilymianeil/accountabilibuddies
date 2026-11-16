@@ -102,7 +102,7 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 <div id="season"></div>
 <h1>Accountabilibuddy Tracker</h1>
 <p class="sub">Six weeks. Two buddies. One pencil.</p>
-<div class="player"><iframe title="Spotify player" src="https://open.spotify.com/embed/track/6dshconh2KBbGxVh7GtSTC?utm_source=generator" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
+<div class="player"><iframe id="player" title="Spotify player" src="https://open.spotify.com/embed/track/6dshconh2KBbGxVh7GtSTC?utm_source=generator" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
 
 <div class="sky" aria-hidden="true">
 <div class="flyer">
@@ -176,13 +176,24 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 
 <script>
 // All values are read live from your Google Sheet:
-//   B1 = words written so far, B2 = goal, E1 = theme (blank = default, "scorpio", or "winter").
+//   B1 = words written so far, B2 = goal, E1 = theme (blank = default, "scorpio", or "winter"), E2 = Spotify link.
 // The sheet must be shared as "Anyone with the link: Viewer".
 const SHEET_ID = '14IWNhqqPW7c8nupQPdm8rVA0yJUYF1HegXEC_tb4-p4';
 const FALLBACK_WORDS = 7000;      // used if the sheet can't be reached
 const FALLBACK_GOAL = 62500;   // used if the sheet can't be reached
 
 const fmt = n => n.toLocaleString('en-GB');
+
+// song: paste a Spotify link into E2; the player switches to it
+function setSong(src){
+  const f = document.getElementById('player');
+  if (f.src !== src) f.src = src;
+  try { localStorage.setItem('song', src); } catch (e) {}
+}
+try {
+  const cached = localStorage.getItem('song');
+  if (cached && cached.startsWith('https://open.spotify.com/embed/')) document.getElementById('player').src = cached;
+} catch (e) {}
 
 // themes: remembered between visits so the page doesn't flash the default first
 const THEMES = {scorpio: '♏\uFE0E Scorpio Season ♏\uFE0E', winter: '❄\uFE0E Winter Wonderland ❄\uFE0E'};
@@ -284,6 +295,9 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&he
     const num_ = c => Math.round(Number(String(c || '').replace(/[^0-9.]/g, '')));
     const w = num_(rows[0] && rows[0][0]), g = num_(rows[1] && rows[1][0]);
     const theme = String((rows[0] && rows[0][3]) || '').toLowerCase();
+    const link = String((rows[1] && rows[1][3]) || '');
+    const m = link.match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist|episode|show|artist)\/([A-Za-z0-9]+)/);
+    if (m) setSong(`https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator`);
     setTheme(Object.keys(THEMES).find(k => theme.includes(k)) || '');
     render(isFinite(w) && w >= 0 ? w : FALLBACK_WORDS, isFinite(g) && g > 0 ? g : FALLBACK_GOAL);
   })
