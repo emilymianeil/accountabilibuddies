@@ -34,7 +34,7 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 .star:nth-child(2n){animation-delay:.3s}.star:nth-child(3n){animation-delay:.6s}
 @keyframes twinkle{50%{opacity:.1}}
 .stage{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin-top:-10px}
-#tube{width:200px;height:460px;overflow:visible}
+#tube{width:min(100%,400px);height:auto;overflow:visible}
 #liquid{transform:translateY(390px);transition:transform 3s cubic-bezier(.3,1.3,.5,1)}
 .wave{animation:slosh 1.8s linear infinite}
 @keyframes slosh{to{transform:translateX(-40px)}}
@@ -42,9 +42,10 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 .bub:nth-of-type(2){animation-duration:4.4s;animation-delay:-1s}.bub:nth-of-type(3){animation-duration:2.9s;animation-delay:-2s}
 .bub:nth-of-type(4){animation-duration:5s;animation-delay:-3s}
 @keyframes rise{from{transform:translateY(0)}to{transform:translateY(-420px)}}
-.marks{list-style:none;margin:0;padding:0;height:390px;position:relative;width:230px;text-align:left;font-weight:600}
-.marks li{position:absolute;left:0;padding-left:16px;border-left:4px dotted var(--plum);transform:translateY(-50%);transition:opacity .4s,filter .4s;opacity:.45;filter:grayscale(1)}
-.marks li.on{opacity:1;filter:none}
+.mk{opacity:.45;transition:opacity .4s}
+.mk.on{opacity:1}
+.mk line{stroke:var(--plum);stroke-width:4;stroke-dasharray:1 7;stroke-linecap:round}
+.mk text{font-family:'Fredoka','Trebuchet MS',sans-serif;font-weight:600;font-size:15px;fill:var(--text);dominant-baseline:central}
 .counter{margin-top:6px}
 #num{font-family:'Chewy','Comic Sans MS',cursive;font-size:clamp(2.6rem,12vw,5rem);color:#fff;-webkit-text-stroke:2px var(--plum);paint-order:stroke fill;text-shadow:4px 4px 0 var(--teal)}
 .of{font-size:1.2rem}
@@ -75,8 +76,7 @@ body[data-theme="winter"] #goo stop:nth-child(2){stop-color:#8fdcff}
 body[data-theme="winter"] #goo stop:nth-child(3){stop-color:#e6fbff}
 body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.flyer{left:calc(50% - 150px)}}
-@media (max-width:560px){.marks{width:170px;font-size:.95rem}}
-</style>
+@media (max-width:560px){</style>
 </head>
 <body>
 <div class="astro" aria-hidden="true">
@@ -146,7 +146,7 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 </div>
 
 <div class="stage">
-<svg id="tube" viewBox="0 0 200 460" role="img" aria-label="Test tube showing writing progress" tabindex="0">
+<svg id="tube" viewBox="0 0 400 460" role="img" aria-label="Test tube showing writing progress" tabindex="0">
  <defs>
   <clipPath id="inside"><path d="M78 40V280C78 300 30 310 30 355A70 70 0 0 0 170 355C170 310 122 300 122 280V40Z"/></clipPath>
   <linearGradient id="goo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff4fa3"/><stop offset=".55" stop-color="#b44cff"/><stop offset="1" stop-color="#12d6c4"/></linearGradient>
@@ -164,8 +164,8 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
  <rect x="68" y="26" width="64" height="16" rx="8" fill="#fff" stroke="#2a0a44" stroke-width="5"/>
  <path d="M88 66V262M52 340C52 372 68 396 92 406" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity=".8"/>
  <g stroke="#2a0a44" stroke-width="3"><path d="M78 90h12M78 140h12M78 190h12M78 240h12"/></g>
+ <g id="markLayer"></g>
 </svg>
-<ul class="marks" id="marks"></ul>
 </div>
 
 <div class="counter">
@@ -233,13 +233,14 @@ const yFor = (w, g) => w < BASE_WORDS ? 440 - 155 * w / BASE_WORDS : 285 - 237 *
 
 // milestones, placed using the same mapping
 const marks = [[0,'0%: pre-juiced my tubes'],[.25,'25%: gorgeous start'],[.5,'50%: halfway there cowboy'],[.75,'75%: almost hunky bumpkin'],[1,'100%: absolute perfection']];
-const ul = document.getElementById('marks');
+const markLayer = document.getElementById('markLayer');
 const lis = marks.map(([p,t]) => {
-  const li = document.createElement('li');
-  li.style.top = (285 - 237 * p - 35) + 'px';
-  li.textContent = t;
-  ul.appendChild(li);
-  return li;
+  const y = 285 - 237 * p;
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('class', 'mk');
+  g.innerHTML = `<line x1="128" y1="${y}" x2="186" y2="${y}"/><text x="194" y="${y}">${t}</text>`;
+  markLayer.appendChild(g);
+  return g;
 });
 
 const msgs = [[0,'Go fill er up buddy!'],[.1,'What a start!'],[.3,'Hot stuff! Keep it coming.'],[.5,'Halfway there ya beauty!'],[.75,'Aaaaaaalmost ya sweetheart (derogatory)!'],[1,'{goal} words. Absolute perfection. No notes.']];
