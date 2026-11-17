@@ -48,7 +48,8 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 .mk text{font-family:'Fredoka','Trebuchet MS',sans-serif;font-weight:600;font-size:15px;fill:var(--text);dominant-baseline:central}
 .counter{margin-top:6px}
 #num{font-family:'Chewy','Comic Sans MS',cursive;font-size:clamp(2.6rem,12vw,5rem);color:#fff;-webkit-text-stroke:2px var(--plum);paint-order:stroke fill;text-shadow:4px 4px 0 var(--teal)}
-.of{font-size:1.2rem}
+.of{font-size:1.2rem;margin-top:10px}
+.head{display:inline-block;margin-top:4px;font-weight:600;font-size:1.15rem;background:var(--teal);color:var(--ink);border:3px solid var(--plum);border-radius:999px;padding:2px 16px;transform:rotate(-2deg);box-shadow:3px 3px 0 var(--plum)}
 #msg{display:inline-block;margin-top:12px;background:var(--card);color:var(--text);border:3px solid var(--plum);border-radius:18px;padding:10px 18px;box-shadow:5px 5px 0 var(--plum);transform:rotate(1.5deg);max-width:92vw}
 /* ---- Scorpio theme (set cell E1 to "scorpio") ---- */
 #season{display:none;font-family:'Chewy','Comic Sans MS',cursive;font-size:clamp(1.2rem,5vw,2rem);letter-spacing:.18em;text-transform:uppercase;color:var(--teal);text-shadow:0 0 14px #f0b94a99;margin:0 0 6px}
@@ -170,7 +171,8 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 
 <div class="counter">
  <div id="num">0</div>
- <div class="of">of <b id="goal"></b> words · <b id="pct"></b></div>
+ <div class="head" id="head"></div>
+ <div class="of">goal <b id="goal"></b> words · <b id="pct"></b> done</div>
  <div id="msg"></div>
 </div>
 
@@ -259,7 +261,9 @@ const num = document.getElementById('num');
 
 function render(words, goal){
   const pct = progress(words, goal);
+  const written = Math.max(0, words - BASE_WORDS);
   document.getElementById('goal').textContent = fmt(goal);
+  document.getElementById('head').textContent = '+' + fmt(Math.min(words, BASE_WORDS)) + ' head start';
   document.getElementById('pct').textContent = Math.round(pct * 100) + '%';
   lis.forEach((li, i) => li.classList.toggle('on', words >= BASE_WORDS && pct >= marks[i][0]));
   document.getElementById('msg').textContent = [...msgs].reverse().find(m => pct >= m[0])[1].replace('{goal}', fmt(goal));
@@ -269,7 +273,7 @@ function render(words, goal){
   const t0 = performance.now();
   (function tick(now){
     const k = Math.min(1, (now - t0) / 2500);
-    num.textContent = fmt(Math.round(words * (1 - Math.pow(1 - k, 3))));
+    num.textContent = fmt(Math.round(written * (1 - Math.pow(1 - k, 3))));
     if (k < 1) requestAnimationFrame(tick);
   })(t0);
 }
