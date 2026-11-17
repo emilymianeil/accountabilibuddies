@@ -61,21 +61,42 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 @keyframes spin{to{transform:rotate(360deg)}}
 body[data-theme="scorpio"]{--pink:#c4124f;--plum:#c9a8ff;--teal:#f0b94a;--text:#f6e3ff;--card:#1d0833;
  background:radial-gradient(circle at 15% 20%,#fff 0 1px,transparent 2px) 0 0/53px 53px,radial-gradient(circle at 75% 65%,#f0b94acc 0 1px,transparent 2px) 0 0/71px 71px,radial-gradient(ellipse at 50% 0%,#4a0f5c,transparent 70%),linear-gradient(170deg,#12031f,#2a0638 55%,#4a0820)}
-body[data-theme="scorpio"] .astro,body[data-theme="scorpio"] #season,body[data-theme="winter"] #season{display:block}
+body[data-theme="scorpio"] .astro,body[data-theme="scorpio"] #season,body[data-theme="winter"] #season,body[data-theme="bonhomme"] #season{display:block}
 body[data-theme="scorpio"] #tube,body[data-theme="scorpio"] .flyer svg{filter:drop-shadow(0 0 7px #c9a8ff)}
 /* ---- Winter wonderland theme (set cell E1 to "winter") ---- */
 .snow{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-body[data-theme="winter"] .snow{display:block}
+body[data-theme="winter"] .snow,body[data-theme="bonhomme"] .snow{display:block}
 .hills{position:absolute;left:0;bottom:0;width:100%;height:24vh}
 .flake{position:absolute;top:-6vh;color:#fff;text-shadow:0 0 4px #4aa0e0;animation:fall linear infinite}
 @keyframes fall{to{transform:translate3d(var(--dx),112vh,0) rotate(360deg)}}
 body[data-theme="winter"]{--pink:#4aa8ff;--plum:#12407a;--teal:#8fe3ff;--text:#0e3a6b;--card:#fff;
  background:linear-gradient(180deg,#6fb8ee,#b4defa 60%,#e8f6ff)}
-body[data-theme="winter"] #season{color:#fff;-webkit-text-stroke:1.5px var(--plum);paint-order:stroke fill;text-shadow:3px 3px 0 var(--pink)}
+body[data-theme="winter"] #season,body[data-theme="bonhomme"] #season{color:#fff;-webkit-text-stroke:1.5px var(--plum);paint-order:stroke fill;text-shadow:3px 3px 0 var(--pink)}
 body[data-theme="winter"] #goo stop:nth-child(1){stop-color:#2f86ff}
 body[data-theme="winter"] #goo stop:nth-child(2){stop-color:#8fdcff}
 body[data-theme="winter"] #goo stop:nth-child(3){stop-color:#e6fbff}
 body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
+/* ---- Bonhomme theme (set cell E1 to "bonhomme") ---- */
+.blood,.bonhomme{display:none;position:fixed;pointer-events:none;z-index:-1}
+.blood{top:0;left:0;right:0;height:17vh}
+.blood svg{width:100%;height:100%;display:block}
+.drip{fill:#c4001f;transform-origin:50% 0;transform-box:fill-box;animation:drip 4s ease-in-out infinite alternate}
+@keyframes drip{from{transform:scaleY(.55)}to{transform:scaleY(1.12)}}
+.bonhomme{right:2vw;bottom:0;width:min(34vw,200px);animation:bobB 2.6s ease-in-out infinite}
+.bonhomme svg{width:100%;display:block;overflow:visible}
+@keyframes bobB{50%{transform:translateY(-8px) rotate(-2deg)}}
+.chomp{transform-origin:140px 114px;animation:chomp .55s ease-in-out infinite alternate}
+@keyframes chomp{from{transform:scaleY(.35)}to{transform:scaleY(1.1)}}
+.drool{animation:dropl 1.4s ease-in infinite}
+@keyframes dropl{from{transform:translateY(-6px);opacity:1}to{transform:translateY(16px);opacity:0}}
+body[data-theme="bonhomme"] .blood,body[data-theme="bonhomme"] .bonhomme{display:block}
+body[data-theme="bonhomme"] .hills{display:none}
+body[data-theme="bonhomme"]{--pink:#d1121f;--plum:#4a0a12;--teal:#ff8a8f;--text:#3a0710;--card:#fff;
+ background:linear-gradient(180deg,#bcd9f7,#eef6ff 55%,#ffe0e0)}
+body[data-theme="bonhomme"] #goo stop:nth-child(1){stop-color:#ff4d4d}
+body[data-theme="bonhomme"] #goo stop:nth-child(2){stop-color:#c4001f}
+body[data-theme="bonhomme"] #goo stop:nth-child(3){stop-color:#6b0012}
+body[data-theme="bonhomme"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.flyer{left:calc(50% - 150px)}}
 @media (max-width:560px){</style>
 </head>
@@ -100,9 +121,32 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
  <path d="M0 150C200 110 350 150 550 135S850 120 1000 140V200H0Z" fill="#fff"/>
 </svg>
 </div>
+<div class="blood" aria-hidden="true"><svg viewBox="0 0 1000 140" preserveAspectRatio="xMidYMin slice"><rect width="1000" height="16" fill="#b0001c"/><path class="drip" style="animation-delay:-0.0s;animation-duration:3s" d="M31 10V70a9 9 0 0 0 18 0V10z"/><path class="drip" style="animation-delay:-0.7s;animation-duration:4s" d="M122 10V110a8 8 0 0 0 16 0V10z"/><path class="drip" style="animation-delay:-1.4s;animation-duration:5s" d="M203 10V55a7 7 0 0 0 14 0V10z"/><path class="drip" style="animation-delay:-2.1s;animation-duration:6s" d="M290 10V90a10 10 0 0 0 20 0V10z"/><path class="drip" style="animation-delay:-2.8s;animation-duration:3s" d="M401 10V130a9 9 0 0 0 18 0V10z"/><path class="drip" style="animation-delay:-3.5s;animation-duration:4s" d="M512 10V60a8 8 0 0 0 16 0V10z"/><path class="drip" style="animation-delay:-4.2s;animation-duration:5s" d="M599 10V100a11 11 0 0 0 22 0V10z"/><path class="drip" style="animation-delay:-4.9s;animation-duration:6s" d="M692 10V75a8 8 0 0 0 16 0V10z"/><path class="drip" style="animation-delay:-5.6s;animation-duration:3s" d="M781 10V120a9 9 0 0 0 18 0V10z"/><path class="drip" style="animation-delay:-6.3s;animation-duration:4s" d="M873 10V65a7 7 0 0 0 14 0V10z"/><path class="drip" style="animation-delay:-7.0s;animation-duration:5s" d="M942 10V95a8 8 0 0 0 16 0V10z"/></svg></div>
+<div class="bonhomme" aria-hidden="true">
+<svg viewBox="0 0 220 240">
+ <rect x="4" y="6" width="98" height="40" rx="16" fill="#fff" stroke="#4a0a12" stroke-width="3"/>
+ <path d="M78 44l18 28 6-32z" fill="#fff" stroke="#4a0a12" stroke-width="3" stroke-linejoin="round"/><path d="M80 43h20" stroke="#fff" stroke-width="5"/>
+ <text x="53" y="33" text-anchor="middle" font-family="Chewy,'Comic Sans MS',cursive" font-size="22" fill="#d1121f">J’ai faim!</text>
+ <circle cx="140" cy="182" r="48" fill="#fff" stroke="#4a0a12" stroke-width="3.5"/>
+ <path d="M94 172c30 14 66 14 92 0l4 18c-30 14-68 14-100 0z" fill="#d1121f" stroke="#4a0a12" stroke-width="3"/>
+ <path d="M100 182l8-6 8 6 8-6 8 6 8-6 8 6 8-6 8 6 8-6" fill="none" stroke="#fff" stroke-width="2"/>
+ <path d="M178 190l-2 24M184 189l8 22M170 191l-8 22" stroke="#d1121f" stroke-width="4" stroke-linecap="round"/>
+ <path d="M96 160C80 150 74 138 70 126M184 160C200 150 208 138 210 124" stroke="#4a0a12" stroke-width="5" stroke-linecap="round" fill="none"/>
+ <path d="M70 124V92M62 92V80M70 92V78M78 92V80M62 92h16" stroke="#8a8f98" stroke-width="3" stroke-linecap="round" fill="none"/>
+ <path d="M210 112V78c9 6 11 20 9 34z" fill="#cfd4dc" stroke="#4a0a12" stroke-width="2.5" stroke-linejoin="round"/>
+ <circle cx="70" cy="124" r="9" fill="#d1121f" stroke="#4a0a12" stroke-width="3"/><circle cx="210" cy="122" r="9" fill="#d1121f" stroke="#4a0a12" stroke-width="3"/>
+ <circle cx="140" cy="100" r="34" fill="#fff" stroke="#4a0a12" stroke-width="3.5"/>
+ <path d="M107 88C108 54 172 54 173 88C150 80 130 80 107 88z" fill="#d1121f" stroke="#4a0a12" stroke-width="3"/>
+ <path d="M140 56q22-16 30 4" stroke="#d1121f" stroke-width="5" stroke-linecap="round" fill="none"/><circle cx="171" cy="62" r="5" fill="#fff" stroke="#4a0a12" stroke-width="2"/>
+ <circle cx="127" cy="102" r="6" fill="#d1121f"/><circle cx="153" cy="102" r="6" fill="#d1121f"/><circle cx="128" cy="102" r="2.3" fill="#000"/><circle cx="154" cy="102" r="2.3" fill="#000"/>
+ <path d="M117 92l17 7M163 92l-17 7" stroke="#4a0a12" stroke-width="3.5" stroke-linecap="round"/>
+ <g class="chomp"><path d="M122 114q18 24 36 0z" fill="#7a0010" stroke="#4a0a12" stroke-width="3" stroke-linejoin="round"/><path d="M127 115l4 11 4-11zM145 115l4 11 4-11z" fill="#fff" stroke="#4a0a12" stroke-width="1.5" stroke-linejoin="round"/></g>
+ <g class="drool"><path d="M160 122v10" stroke="#d1121f" stroke-width="4" stroke-linecap="round"/><circle cx="160" cy="136" r="3.5" fill="#d1121f"/></g>
+</svg>
+</div>
 <div id="season"></div>
 <h1>Accountabilibuddy Tracker</h1>
-<p class="sub">Six weeks. Two buddies. One pencil.</p>
+<p class="sub" id="sub">Six weeks. Two buddies. One pencil.</p>
 <div class="player"><iframe id="player" title="Spotify player" src="https://open.spotify.com/embed/track/6dshconh2KBbGxVh7GtSTC?utm_source=generator" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
 
 <div class="sky" aria-hidden="true">
@@ -178,10 +222,10 @@ body[data-theme="winter"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 
 <script>
 // All values are read live from your Google Sheet:
-//   B1 = words written so far, B2 = goal, E1 = theme (blank = default, "scorpio", or "winter"), E2 = Spotify link.
+//   B1 = words written so far, B2 = goal, E1 = theme (blank = default, "scorpio", "winter", or "bonhomme"), E2 = Spotify link.
 // The sheet must be shared as "Anyone with the link: Viewer".
 const SHEET_ID = '14IWNhqqPW7c8nupQPdm8rVA0yJUYF1HegXEC_tb4-p4';
-const FALLBACK_WORDS = 7000;      // used if the sheet can't be reached
+const FALLBACK_WORDS = 31000;      // used if the sheet can't be reached
 const FALLBACK_GOAL = 62500;   // used if the sheet can't be reached
 
 const fmt = n => n.toLocaleString('en-GB');
@@ -198,13 +242,17 @@ try {
 } catch (e) {}
 
 // themes: remembered between visits so the page doesn't flash the default first
-const THEMES = {scorpio: '♏\uFE0E Scorpio Season ♏\uFE0E', winter: '❄\uFE0E Winter Wonderland ❄\uFE0E'};
+const THEMES = {scorpio: '♏\uFE0E Scorpio Season ♏\uFE0E', winter: '❄\uFE0E Winter Wonderland ❄\uFE0E', bonhomme: '☃\uFE0E Bonhomme a faim ☃\uFE0E'};
+const THEME_SUB = {bonhomme: 'Bonhomme is hungry… for Anglo blood. Feed him words instead.'};
 function setTheme(t){
   document.body.dataset.theme = t;
   document.getElementById('season').textContent = THEMES[t] || '';
+  const sub = document.getElementById('sub');
+  if (!sub.dataset.d) sub.dataset.d = sub.textContent;
+  sub.textContent = THEME_SUB[t] || sub.dataset.d;
   try { localStorage.setItem('theme', t); } catch (e) {}
 }
-try { setTheme(localStorage.getItem('theme') || ''); } catch (e) {}
+setTheme('bonhomme');
 
 // astrology wheel for the Scorpio theme
 (function(){
@@ -257,6 +305,7 @@ const lis = marks.map(([p,t]) => {
 });
 
 const msgs = [[0,'Go fill er up buddy!'],[.1,'What a start!'],[.3,'Hot stuff! Keep it coming.'],[.5,'Halfway there ya beauty!'],[.75,'Aaaaaaalmost ya sweetheart (derogatory)!'],[1,'{goal} words. Absolute perfection. No notes.']];
+const msgsB = [[0,'Bonhomme is hungry. Feed him.'],[.1,'Nom. Keep going.'],[.3,'He’s licking his lips.'],[.5,'Halfway fed. He wants more.'],[.75,'Bonhomme is drooling. Almost there.'],[1,'{goal} words. Bonhomme is full. For now.']];
 const num = document.getElementById('num');
 
 function render(words, goal){
@@ -266,7 +315,7 @@ function render(words, goal){
   document.getElementById('head').textContent = '+' + fmt(Math.min(words, BASE_WORDS)) + ' head start';
   document.getElementById('pct').textContent = Math.round(pct * 100) + '%';
   lis.forEach((li, i) => li.classList.toggle('on', words >= BASE_WORDS && pct >= marks[i][0]));
-  document.getElementById('msg').textContent = [...msgs].reverse().find(m => pct >= m[0])[1].replace('{goal}', fmt(goal));
+  document.getElementById('msg').textContent = [...(document.body.dataset.theme === 'bonhomme' ? msgsB : msgs)].reverse().find(m => pct >= m[0])[1].replace('{goal}', fmt(goal));
   setTimeout(() => {
     document.getElementById('liquid').style.transform = `translateY(${yFor(words, goal) - 48}px)`;
   }, 300);
