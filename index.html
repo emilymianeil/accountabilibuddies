@@ -61,7 +61,7 @@ h1{font-family:'Chewy','Comic Sans MS',cursive;font-weight:400;font-size:clamp(2
 @keyframes spin{to{transform:rotate(360deg)}}
 body[data-theme="scorpio"]{--pink:#c4124f;--plum:#c9a8ff;--teal:#f0b94a;--text:#f6e3ff;--card:#1d0833;
  background:radial-gradient(circle at 15% 20%,#fff 0 1px,transparent 2px) 0 0/53px 53px,radial-gradient(circle at 75% 65%,#f0b94acc 0 1px,transparent 2px) 0 0/71px 71px,radial-gradient(ellipse at 50% 0%,#4a0f5c,transparent 70%),linear-gradient(170deg,#12031f,#2a0638 55%,#4a0820)}
-body[data-theme="scorpio"] .astro,body[data-theme="scorpio"] #season,body[data-theme="winter"] #season,body[data-theme="bonhomme"] #season{display:block}
+body[data-theme="scorpio"] .astro,body[data-theme="scorpio"] #season,body[data-theme="winter"] #season,body[data-theme="bonhomme"] #season,body[data-theme="run"] #season{display:block}
 body[data-theme="scorpio"] #tube,body[data-theme="scorpio"] .flyer svg{filter:drop-shadow(0 0 7px #c9a8ff)}
 /* ---- Winter wonderland theme (set cell E1 to "winter") ---- */
 .snow{display:none;position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
@@ -71,7 +71,7 @@ body[data-theme="winter"] .snow,body[data-theme="bonhomme"] .snow{display:block}
 @keyframes fall{to{transform:translate3d(var(--dx),112vh,0) rotate(360deg)}}
 body[data-theme="winter"]{--pink:#4aa8ff;--plum:#12407a;--teal:#8fe3ff;--text:#0e3a6b;--card:#fff;
  background:linear-gradient(180deg,#6fb8ee,#b4defa 60%,#e8f6ff)}
-body[data-theme="winter"] #season,body[data-theme="bonhomme"] #season{color:#fff;-webkit-text-stroke:1.5px var(--plum);paint-order:stroke fill;text-shadow:3px 3px 0 var(--pink)}
+body[data-theme="winter"] #season,body[data-theme="bonhomme"] #season,body[data-theme="run"] #season{color:#fff;-webkit-text-stroke:1.5px var(--plum);paint-order:stroke fill;text-shadow:3px 3px 0 var(--pink)}
 body[data-theme="winter"] #goo stop:nth-child(1){stop-color:#2f86ff}
 body[data-theme="winter"] #goo stop:nth-child(2){stop-color:#8fdcff}
 body[data-theme="winter"] #goo stop:nth-child(3){stop-color:#e6fbff}
@@ -97,7 +97,30 @@ body[data-theme="bonhomme"] #goo stop:nth-child(1){stop-color:#ff4d4d}
 body[data-theme="bonhomme"] #goo stop:nth-child(2){stop-color:#c4001f}
 body[data-theme="bonhomme"] #goo stop:nth-child(3){stop-color:#6b0012}
 body[data-theme="bonhomme"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.flyer{left:calc(50% - 150px)}}
+/* ---- Run club theme (set cell E1 to "run") ---- */
+.runners,.track{display:none}
+.runners{position:absolute;top:36px;left:0;width:380px;height:130px;animation:runacross 12s linear infinite}
+@keyframes runacross{from{transform:translateX(-400px)}to{transform:translateX(calc(100vw + 20px))}}
+.rf{position:absolute;top:0;width:100px;height:130px;overflow:visible;animation:bobR var(--sp,.5s) ease-in-out infinite}
+@keyframes bobR{50%{transform:translateY(-7px)}}
+.lm{animation:swA var(--sp,.5s) ease-in-out infinite alternate}
+.a2,.l1{animation-name:swB}
+@keyframes swA{from{transform:rotate(-38deg)}to{transform:rotate(38deg)}}
+@keyframes swB{from{transform:rotate(38deg)}to{transform:rotate(-38deg)}}
+.hairf{transform-origin:42px 14px;animation:hf .3s ease-in-out infinite alternate}
+@keyframes hf{from{transform:skewY(-4deg)}to{transform:skewY(6deg)}}
+.tear{animation:tear .9s ease-in infinite}
+.tear.t2{animation-delay:-.45s}
+@keyframes tear{from{transform:translate(0,0);opacity:1}to{transform:translate(-8px,20px);opacity:0}}
+.track{position:fixed;left:0;right:0;bottom:0;height:15vh;z-index:-1;border-top:8px solid #3fae4f;background:repeating-linear-gradient(180deg,#e2572a 0 31%,#fff 31% 33%)}
+body[data-theme="run"] .runners,body[data-theme="run"] .track{display:block}
+body[data-theme="run"] .flyer{display:none}
+body[data-theme="run"]{--pink:#ff5a1f;--plum:#0b2a5b;--teal:#ffd23f;--text:#0b2a5b;--card:#fff;
+ background:radial-gradient(circle at 86% 10%,#fff3a0 0 6vmin,transparent 6.6vmin),linear-gradient(180deg,#7fcdff,#d6f0ff 60%,#e9fbe6)}
+body[data-theme="run"] #goo stop:nth-child(1){stop-color:#ff5a1f}
+body[data-theme="run"] #goo stop:nth-child(2){stop-color:#ffb300}
+body[data-theme="run"] #goo stop:nth-child(3){stop-color:#ffe36e}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.flyer{left:calc(50% - 150px)}.runners{left:calc(50% - 190px)}}
 @media (max-width:560px){</style>
 </head>
 <body>
@@ -144,12 +167,14 @@ body[data-theme="bonhomme"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
  <g class="drool"><path d="M160 122v10" stroke="#d1121f" stroke-width="4" stroke-linecap="round"/><circle cx="160" cy="136" r="3.5" fill="#d1121f"/></g>
 </svg>
 </div>
+<div class="track" aria-hidden="true"></div>
 <div id="season"></div>
 <h1>Accountabilibuddy Tracker</h1>
 <p class="sub" id="sub">Six weeks. Two buddies. One pencil.</p>
 <div class="player"><iframe id="player" title="Spotify player" src="https://open.spotify.com/embed/track/6dshconh2KBbGxVh7GtSTC?utm_source=generator" width="100%" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
 
 <div class="sky" aria-hidden="true">
+<div class="runners" id="runners"></div>
 <div class="flyer">
 <svg viewBox="0 0 320 170">
  <g fill="#fff"><path class="star" d="M-10 90l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" transform="translate(20 -10)"/><path class="star" d="M0 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" transform="translate(-5 120)"/><path class="star" d="M0 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" transform="translate(5 30)"/></g>
@@ -222,10 +247,10 @@ body[data-theme="bonhomme"] .flyer svg{filter:drop-shadow(0 0 6px #fff)}
 
 <script>
 // All values are read live from your Google Sheet:
-//   B1 = words written so far, B2 = goal, E1 = theme (blank = default, "scorpio", "winter", or "bonhomme"), E2 = Spotify link.
+//   B1 = words written so far, B2 = goal, E1 = theme (blank = default, "scorpio", "winter", "bonhomme", or "run"), E2 = Spotify link.
 // The sheet must be shared as "Anyone with the link: Viewer".
 const SHEET_ID = '14IWNhqqPW7c8nupQPdm8rVA0yJUYF1HegXEC_tb4-p4';
-const FALLBACK_WORDS = 31000;      // used if the sheet can't be reached
+const FALLBACK_WORDS = 7000;      // used if the sheet can't be reached
 const FALLBACK_GOAL = 62500;   // used if the sheet can't be reached
 
 const fmt = n => n.toLocaleString('en-GB');
@@ -242,8 +267,8 @@ try {
 } catch (e) {}
 
 // themes: remembered between visits so the page doesn't flash the default first
-const THEMES = {scorpio: '♏\uFE0E Scorpio Season ♏\uFE0E', winter: '❄\uFE0E Winter Wonderland ❄\uFE0E', bonhomme: '☃\uFE0E Bonhomme a faim ☃\uFE0E'};
-const THEME_SUB = {bonhomme: 'Bonhomme is hungry… for Anglo blood. Feed him words instead.'};
+const THEMES = {scorpio: '♏\uFE0E Scorpio Season ♏\uFE0E', winter: '❄\uFE0E Winter Wonderland ❄\uFE0E', bonhomme: '☃\uFE0E Bonhomme a faim ☃\uFE0E', run: '★ Run Club ★'};
+const THEME_SUB = {bonhomme: 'Bonhomme is hungry… for Anglo blood. Feed him words instead.', run: 'Three runners. One is crying. All are committed.'};
 function setTheme(t){
   document.body.dataset.theme = t;
   document.getElementById('season').textContent = THEMES[t] || '';
@@ -252,11 +277,7 @@ function setTheme(t){
   sub.textContent = THEME_SUB[t] || sub.dataset.d;
   try { localStorage.setItem('theme', t); } catch (e) {}
 }
-try {
-  setTheme(localStorage.getItem('theme') || '');
-} catch (e) {
-  setTheme('');
-}
+try { setTheme(localStorage.getItem('theme') || ''); } catch (e) {}
 
 // astrology wheel for the Scorpio theme
 (function(){
@@ -296,6 +317,32 @@ const BASE_WORDS = 7000;
 const progress = (w, g) => w <= BASE_WORDS ? 0 : g <= BASE_WORDS ? 1 : Math.min(1, (w - BASE_WORDS) / (g - BASE_WORDS));
 const yFor = (w, g) => w < BASE_WORDS ? 440 - 155 * w / BASE_WORDS : 285 - 237 * progress(w, g);
 
+// stick-figure runners for the Run Club theme
+(function(){
+  const fig = ({x, col, hair, toque, cry, sp}) => `
+<svg class="rf" viewBox="0 0 100 130" style="left:${x}px;--sp:${sp}s">
+ ${hair ? `<path class="hairf" d="M42 14C30 16 18 24 8 40C20 36 28 36 36 40C30 44 28 50 24 58C36 52 42 44 46 34Z" fill="${hair}" stroke="#222" stroke-width="2"/>` : ''}
+ <g stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <path d="M50 36L47 72"/>
+  <g class="lm a1" style="transform-origin:50px 44px"><path d="M50 44L60 56L73 50"/></g>
+  <g class="lm a2" style="transform-origin:50px 44px"><path d="M50 44L40 56L27 50"/></g>
+  <g class="lm l1" style="transform-origin:47px 72px"><path d="M47 72L53 106L63 106"/></g>
+  <g class="lm l2" style="transform-origin:47px 72px"><path d="M47 72L41 106L51 106"/></g>
+ </g>
+ <circle cx="50" cy="24" r="12" fill="#fff" stroke="#222" stroke-width="3.5"/>
+ ${hair ? `<path d="M38 22C38 8 62 8 62 22C55 15 45 15 38 22Z" fill="${hair}" stroke="#222" stroke-width="2"/>` : ''}
+ ${toque ? `<path d="M38 18C38 3 62 3 62 18Z" fill="#2f6bff" stroke="#222" stroke-width="2.5"/><rect x="37" y="15" width="26" height="6" rx="3" fill="#1b4ed0" stroke="#222" stroke-width="2.5"/><circle cx="50" cy="3.5" r="5" fill="#fff" stroke="#222" stroke-width="2.5"/>` : ''}
+ <circle cx="52" cy="24" r="1.9" fill="#222"/><circle cx="59" cy="24" r="1.9" fill="#222"/>
+ ${cry
+  ? `<path d="M51 33q5-5 10 0" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle class="tear" cx="52" cy="28" r="2.4" fill="#4aa8ff"/><circle class="tear t2" cx="59" cy="28" r="2.4" fill="#4aa8ff"/>`
+  : `<path d="M51 29q5 5 10 0" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>`}
+</svg>`;
+  document.getElementById('runners').innerHTML =
+    fig({x: 20,  col: '#7a3cff', hair: '#6b3e26', cry: true, sp: .62}) +
+    fig({x: 170, col: '#1f5fe0', toque: true, sp: .46}) +
+    fig({x: 280, col: '#d1308a', hair: '#c78d63', sp: .42});
+})();
+
 // milestones, placed using the same mapping
 const marks = [[0,'0%: pre-juiced my tubes'],[.25,'25%: gorgeous start'],[.5,'50%: halfway there cowboy'],[.75,'75%: almost hunky bumpkin'],[1,'100%: absolute perfection']];
 const markLayer = document.getElementById('markLayer');
@@ -310,6 +357,8 @@ const lis = marks.map(([p,t]) => {
 
 const msgs = [[0,'Go fill er up buddy!'],[.1,'What a start!'],[.3,'Hot stuff! Keep it coming.'],[.5,'Halfway there ya beauty!'],[.75,'Aaaaaaalmost ya sweetheart (derogatory)!'],[1,'{goal} words. Absolute perfection. No notes.']];
 const msgsB = [[0,'Bonhomme is hungry. Feed him.'],[.1,'Nom. Keep going.'],[.3,'He’s licking his lips.'],[.5,'Halfway fed. He wants more.'],[.75,'Bonhomme is drooling. Almost there.'],[1,'{goal} words. Bonhomme is full. For now.']];
+const msgsR = [[0,'Laces tied. Water bottle filled. Go.'],[.1,'Warm-up complete.'],[.3,'Finding our pace.'],[.5,'Halfway. The crying one is keeping up (barely).'],[.75,'Final stretch. Think of the post-run snacks.'],[1,'{goal} words. Finish line. Medals for everyone.']];
+const MSGS_BY_THEME = {bonhomme: msgsB, run: msgsR};
 const num = document.getElementById('num');
 
 function render(words, goal){
@@ -319,7 +368,7 @@ function render(words, goal){
   document.getElementById('head').textContent = '+' + fmt(Math.min(words, BASE_WORDS)) + ' head start';
   document.getElementById('pct').textContent = Math.round(pct * 100) + '%';
   lis.forEach((li, i) => li.classList.toggle('on', words >= BASE_WORDS && pct >= marks[i][0]));
-  document.getElementById('msg').textContent = [...(document.body.dataset.theme === 'bonhomme' ? msgsB : msgs)].reverse().find(m => pct >= m[0])[1].replace('{goal}', fmt(goal));
+  document.getElementById('msg').textContent = [...(MSGS_BY_THEME[document.body.dataset.theme] || msgs)].reverse().find(m => pct >= m[0])[1].replace('{goal}', fmt(goal));
   setTimeout(() => {
     document.getElementById('liquid').style.transform = `translateY(${yFor(words, goal) - 48}px)`;
   }, 300);
